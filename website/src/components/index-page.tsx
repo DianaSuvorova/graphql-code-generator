@@ -23,7 +23,7 @@ export function IndexPage(): ReactElement {
         image={{
           ...gqlCodegenCover,
           loading: 'eager',
-          placeholder: "empty",
+          placeholder: 'empty',
           alt: 'Illustration',
         }}
       />
@@ -36,7 +36,7 @@ export function IndexPage(): ReactElement {
         image={{
           ...gqlGenerateCodeIllustration,
           loading: 'eager',
-          placeholder: "empty",
+          placeholder: 'empty',
           alt: 'Illustration',
         }}
         flipped
@@ -48,7 +48,7 @@ export function IndexPage(): ReactElement {
         image={{
           ...gqlWatchForChangesIllustration,
           loading: 'eager',
-          placeholder: "empty",
+          placeholder: 'empty',
           alt: 'Customize Easily',
         }}
       />
