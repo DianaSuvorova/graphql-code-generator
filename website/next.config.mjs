@@ -12,14 +12,16 @@ const basePath =
     : '/graphql/codegen';
 
 export default withGuildDocs({
-  experimental: {
-    images: {
-      unoptimized: true,
-    },
-  },
   basePath,
   eslint: {
     ignoreDuringBuilds: true,
+  },
+  experimental: {
+    urlImports: [
+      'https://graphql-modules.com/assets/subheader-logo.svg',
+      'https://pbs.twimg.com/profile_images/1004185780313395200/ImZxrDWf_400x400.jpg',
+      'https://raw.githubusercontent.com/mswjs/msw/HEAD/media/msw-logo.svg'
+    ],
   },
   typescript: {
     // Todo: remove it before merge to master

@@ -1,16 +1,13 @@
-import { useState, useEffect, Suspense, ReactElement } from 'react';
+import { useState, useEffect, ReactElement } from 'react';
 import { load } from 'js-yaml';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
-import { useTheme } from '@theguild/components';
+import { useTheme, Image } from '@theguild/components';
 import Select from 'react-select';
-import { EXAMPLES, EXAMPLES_ICONS } from './examples';
+import { EXAMPLES } from './examples';
+import { icons } from '@/lib/plugins';
 import { getMode } from './formatter';
 import { generate } from './generate';
-import { Loading } from '../ui/Loading';
 import LiveDemoEditors from './LiveDemoEditors';
-
-const ErrorBoundary = dynamic(import('./ErrorBoundary'), { ssr: false });
 
 const groupedExamples = Object.entries(EXAMPLES).map(([catName, category]) => ({
   label: catName,
@@ -105,13 +102,12 @@ export const LiveDemo = (): ReactElement => {
           getOptionLabel={o => (
             <div className="flex items-center justify-end gap-1.5">
               <span className="mr-auto">{o.name}</span>
-              {o.tags?.map((t, index) => {
-                const icon = EXAMPLES_ICONS[t];
-                const key = `${o.name}_${index}`;
+              {o.tags?.map(t => {
+                const icon = icons[t];
                 return icon ? (
-                  <Image key={key} priority height={18} width={18} alt={icon.alt} src={icon.src} />
+                  <Image key={t} {...icon} placeholder="none" loading="eager" className="max-h-[20px] w-auto" />
                 ) : (
-                  <span key={key} className="rounded-lg bg-gray-200 px-2 px-1 text-xs text-gray-800">
+                  <span key={t} className="rounded-lg bg-gray-200 px-2 text-xs text-gray-800">
                     {t}
                   </span>
                 );
@@ -122,23 +118,17 @@ export const LiveDemo = (): ReactElement => {
           options={groupedExamples}
         />
       </div>
-      <div className="flex border-y border-gray-300">
-        <ErrorBoundary>
-          <Suspense fallback={<Loading color={isDarkTheme ? '#fff' : '#000'} height="450px" />}>
-            <LiveDemoEditors
-              setSchema={setSchema}
-              schema={schema}
-              setDocuments={setDocuments}
-              documents={documents}
-              setConfig={setConfig}
-              config={config}
-              mode={mode}
-              error={error}
-              output={output}
-            />
-          </Suspense>
-        </ErrorBoundary>
-      </div>
+      <LiveDemoEditors
+        setSchema={setSchema}
+        schema={schema}
+        setDocuments={setDocuments}
+        documents={documents}
+        setConfig={setConfig}
+        config={config}
+        mode={mode}
+        error={error}
+        output={output}
+      />
     </div>
   );
 };
