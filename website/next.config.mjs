@@ -5,16 +5,11 @@ const PLUGINS_REDIRECTS = Object.entries(CategoryToPackages).flatMap(([category,
   packageNames.map(packageName => [`/plugins/${packageName}`, `/plugins/${category}/${packageName}`])
 );
 
+// TODO: Fix and use the correct branch name here, instead of the experimental branch
 const basePath =
-  process.env.NODE_ENV === 'development' || process.env.CF_PAGES_BRANCH !== 'master' || !!process.env.GITHUB_ACTION
+  process.env.NODE_ENV === 'development' || process.env.CF_PAGES_BRANCH !== 'add-base-path' || process.env.GITHUB_ACTION
     ? undefined
     : '/graphql/codegen';
-
-console.log(`NextJS build is using basePath: ${basePath}`, {
-  CF_PAGES_BRANCH: process.env.CF_PAGES_BRANCH,
-  GITHUB_ACTION: process.env.GITHUB_ACTION,
-  NODE_ENV: process.env.NODE_ENV,
-});
 
 export default withGuildDocs({
   experimental: {
