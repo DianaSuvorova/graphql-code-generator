@@ -5,6 +5,8 @@ import classes from './styles.module.css';
 import { Image } from '@theguild/components';
 import graphqlLogo from '../../../public/assets/img/GraphQL_Logo.svg';
 import gqlCodegenIcon from '../../../public/assets/img/gql-codegen-icon.svg';
+import { load } from 'js-yaml';
+import { getMode } from './formatter';
 
 const LiveDemoEditors = ({
   setSchema,
@@ -13,10 +15,18 @@ const LiveDemoEditors = ({
   documents,
   setConfig,
   config,
-  mode,
   error,
   output,
 }): ReactElement => {
+  let mode = null;
+
+  try {
+    const parsedConfig = load(config || '');
+    mode = getMode(parsedConfig);
+  } catch (e) {
+    console.error(e);
+  }
+
   return (
     <div className="flex">
       <div className={classes.column}>

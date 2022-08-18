@@ -1,6 +1,4 @@
 import { useState, useEffect, ReactElement } from 'react';
-import { load } from 'js-yaml';
-import dynamic from 'next/dynamic';
 import { useTheme, Image } from '@theguild/components';
 import Select from 'react-select';
 import { EXAMPLES } from './examples';
@@ -44,7 +42,7 @@ const DEFAULT_EXAMPLE = {
   index: 0,
 } as const;
 
-export const LiveDemo = (): ReactElement => {
+export default function LiveDemo(): ReactElement {
   const { theme } = useTheme();
   const isDarkTheme = theme === 'dark';
   const [template, setTemplate] = useState(`${DEFAULT_EXAMPLE.catName}__${DEFAULT_EXAMPLE.index}`);
@@ -53,29 +51,13 @@ export const LiveDemo = (): ReactElement => {
   const [config, setConfig] = useState(EXAMPLES[DEFAULT_EXAMPLE.catName][DEFAULT_EXAMPLE.index].config);
   const { output, error } = useCodegen(config, schema, documents, template);
 
-  const changeTemplate = value => {
+  const changeTemplate = (value: string) => {
     const [catName, index] = value.split('__');
     setSchema(EXAMPLES[catName][index].schema);
     setDocuments(EXAMPLES[catName][index].documents);
     setConfig(EXAMPLES[catName][index].config);
     setTemplate(value);
   };
-
-  let mode = null;
-
-  try {
-    const parsedConfig = load(config || '');
-    mode = getMode(parsedConfig);
-  } catch (e) {
-    console.error(e);
-  }
-
-  // let description = null;
-  //
-  // if (template) {
-  //   const [catName, index] = template.split('__');
-  //   description = EXAMPLES[catName][index].description;
-  // }
 
   return (
     <div className="hidden lg:!block">
@@ -125,12 +107,9 @@ export const LiveDemo = (): ReactElement => {
         documents={documents}
         setConfig={setConfig}
         config={config}
-        mode={mode}
         error={error}
         output={output}
       />
     </div>
   );
-};
-
-export default LiveDemo;
+}

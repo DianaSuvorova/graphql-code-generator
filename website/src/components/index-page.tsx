@@ -5,7 +5,7 @@ import gqlCodegenCover from '../../public/assets/illustrations/gql-codegen-cover
 import gqlGenerateCodeIllustration from '../../public/assets/illustrations/gql-generate-code-illustration.svg';
 import gqlWatchForChangesIllustration from '../../public/assets/illustrations/gql-watch-for-changes-illustration.svg';
 
-const LiveDemo = dynamic(() => import('@/components/live-demo/LiveDemo'));
+const LiveDemo = dynamic(() => import('@/components/live-demo/LiveDemo'), { ssr: false });
 
 export function IndexPage(): ReactElement {
   return (
@@ -38,7 +38,9 @@ export function IndexPage(): ReactElement {
           loading: 'eager',
           placeholder: 'empty',
           alt: 'Illustration',
+          className: 'max-h-[16rem]',
         }}
+        className="[&>div]:max-w-6xl"
         flipped
       />
 
@@ -50,7 +52,9 @@ export function IndexPage(): ReactElement {
           loading: 'eager',
           placeholder: 'empty',
           alt: 'Customize Easily',
+          className: 'max-h-[16rem]',
         }}
+        className="[&>div]:max-w-6xl"
       />
     </>
   );
